@@ -34,7 +34,7 @@ class User extends Model {
 
         } else {
 
-              throw new \Exception("Usuário inexistente ou senha inválida.");
+            throw new \Exception("Usuário inexistente ou senha inválida.");
 
         }
 
@@ -64,6 +64,77 @@ class User extends Model {
         $_SESSION[User::SESSION] = NULL;
 
     }
+
+    public static function listAll(){
+
+        $sql = new Sql();
+
+        return $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.name");
+
+    }
+
+    public function save(){
+
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_users_save(:name, :username, :password, :email, :phone, :nivel)", 
+        array(
+            ":name"=>$this->getname(),
+            ":username"=>$this->getusername(),
+            ":password"=>$this->getpassword(),
+            ":email"=>$this->getemail(),
+            ":phone"=>$this->getphone(),
+            ":nivel"=>$this->getnivel()
+
+        ));
+
+        $this->setData($results[0]);
+
+    } 
+
+    public function get($id){
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.id = :id", 
+        array(
+            ":id"=>$id
+        ));
+
+        $this->setData($results[0]);
+
+    }
+
+    public function update(){
+
+        $sql = new Sql();
+
+        $results = $sql->select("CALL sp_usersupdate_save(:id, :name, :username, :password, :email, :phone, :nivel)", 
+        array(
+            ":id"=>$this->getid(),
+            ":name"=>$this->getname(),
+            ":username"=>$this->getusername(),
+            ":password"=>$this->getpassword(),
+            ":email"=>$this->getemail(),
+            ":phone"=>$this->getphone(),
+            ":nivel"=>$this->getnivel()
+
+        ));
+
+        $this->setData($results[0]);
+
+    } 
+
+    public function delete(){
+        
+        $sql = new Sql();
+
+        $sql->query("CALL sp_users_delete(:id)", array(
+            ":id"=>$this->getid()
+        ));
+
+    }
+
 }
 
 ?>
