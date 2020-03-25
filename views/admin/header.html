@@ -276,7 +276,7 @@
 										<div class="dropdown-divider"></div>
 										<a class="dropdown-item" href="#">Account Setting</a>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">Logout</a>
+										<a class="dropdown-item" href="/admin/logout">sair</a>
 									</li>
 								</div>
 							</ul>
@@ -298,7 +298,7 @@
 						<div class="info">
 							<a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
 								<span>
-									Hizrian
+									Administrador
 									<span class="user-level">Administrator</span>
 									<span class="caret"></span>
 								</span>
