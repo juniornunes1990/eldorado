@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+<?php if(!class_exists('Rain\Tpl')){exit;}?><!DOCTYPE html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Acesso ao Sistema</title>
-<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-<script src="assets/js/core/jquery.3.2.1.min"></script>
-<script src="assets/js/core//bootstrap.min.js"></script> 
+<title>Bootstrap Simple Login Form</title>
+<link rel="stylesheet" href="/res/admin/assets/css/bootstrap.min.css">
+<script src="/res/admin/assets/core/jquery.min.js"></script>
+<script src="/res/admin/assets/core/bootstrap.min.js"></script> 
 <style type="text/css">
 	.login-form {
 		width: 340px;
@@ -29,13 +29,12 @@
     .btn {        
         font-size: 15px;
         font-weight: bold;
-        background: #0355C0;
     }
 </style>
 </head>
 <body>
 <div class="login-form">
-    <form action="/examples/actions/confirmation.php" method="post">
+    <form action="/admin/login" method="post">
         <h2 class="text-center">Acesso no Sistema</h2>       
         <div class="form-group">
             <input type="text" class="form-control" name="username" placeholder="Usuário" required="required">
@@ -44,14 +43,14 @@
             <input type="password" class="form-control" name="password" placeholder="Senha" required="required">
         </div>
         <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+            <button type="submit" class="btn btn-primary btn-block">Entrer</button>
         </div>
         <div class="clearfix">
-            <label class="pull-left checkbox-inline"><input type="checkbox"> Lembrar Senha</label>
-            <a href="#" class="pull-right">Esqueceu sua senha?</a>
+            <label class="pull-left checkbox-inline"><input type="checkbox"> Lembrar-me</label>
+            <a href="#" class="pull-right">Esqueceu a senha?</a>
         </div>        
     </form>
-    <p class="text-center"><a href="#">Criar uma conta</a></p>
+    <p class="text-center"><a href="#">Voltar para o site</a></p>
 </div>
 </body>
 </html>                                		                            
