@@ -123,6 +123,8 @@ $app->post("/admin/users/create", function(){
 
 	$_POST["nivel"] = (isset($_POST["nivel"]))?1:0;
 
+	$_POST['password'] = User::getPasswordHash($_POST['password']);
+
 	$user->setData($_POST);
 
 	$user->save();
@@ -151,14 +153,14 @@ $app->post("/admin/users/:iduser", function($iduser){
 
 });
 
-$app->get("/admin/forgot", function(){
+$app->get("/admin/forgot", function() {
 
 	$page = new PageAdmin([
 		"header"=>false,
 		"footer"=>false
 	]);
-	
-	$page->setTpl("forgot");
+
+	$page->setTpl("forgot");	
 
 });
 
@@ -178,7 +180,49 @@ $app->get("/admin/forgot/sent", function(){
 		"footer"=>false
 	]);
 
-	$page->setTpl("forgot-sent");
+	$page->setTpl("forgot-sent");	
+
+});
+
+$app->get("/admin/forgot/reset", function(){
+
+	$user = User::validForgotDecrypt($_GET["code"]);
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+
+	$page->setTpl("forgot-reset", array(
+		"name"=>$user["name"],
+		"code"=>$_GET["code"]
+	));
+
+});
+
+$app->post("/admin/forgot/reset", function(){
+
+	$forgot = User::validForgotDecrypt($_POST["code"]);	
+
+	User::setFogotUsed($forgot["idrecovery"]);
+
+	$user = new User();
+
+	$user->get((int)$forgot["iduser"]);
+
+	$password = password_hash($_POST["password"], PASSWORD_DEFAULT, [
+		"cost"=>12
+	]);
+
+	$user->setPassword($password);
+
+	$page = new PageAdmin([
+		"header"=>false,
+		"footer"=>false
+	]);
+
+	$page->setTpl("forgot-reset-success");
+
 });
 
 $app->run();

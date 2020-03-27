@@ -8,7 +8,59 @@ use \Atlantic\Mailer;
 class User extends Model {
 
     const SESSION = "User";
-    const SECRET = "Atlantic_TecPHP7";
+	const SECRET = "Atlantic_Secreto";
+	const SECRET_IV = "Atlantic_Secreto_IV";
+	const ERROR = "UserError";
+	const ERROR_REGISTER = "UserErrorRegister";
+	const SUCCESS = "UserSucesss";
+
+    public static function getFromSession()
+	{
+
+		$user = new User();
+
+		if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]['iduser'] > 0) {
+
+			$user->setData($_SESSION[User::SESSION]);
+
+		}
+
+		return $user;
+
+	}
+
+	public static function checkLogin($nivel = true)
+	{
+
+		if (
+			!isset($_SESSION[User::SESSION])
+			||
+			!$_SESSION[User::SESSION]
+			||
+			!(int)$_SESSION[User::SESSION]["iduser"] > 0
+		) {
+			//Não está logado
+			return false;
+
+		} else {
+
+			if ($nivel === true && (bool)$_SESSION[User::SESSION]['nivel'] === true) {
+
+				return true;
+
+			} else if ($nivel === false) {
+
+				return true;
+
+			} else {
+
+				return false;
+
+			}
+
+		}
+
+	}
 
     public static function login($username, $password)  {
 
@@ -42,24 +94,21 @@ class User extends Model {
 
     }
 
-    public static function verifyLogin($nivelAdmin = true){
-        
-        if(
-            !isset($_SESSION[User::SESSION])
-            ||
-            !$_SESSION[User::SESSION]
-            ||
-            !(int)$_SESSION[User::SESSION]["iduser"] > 0
-            ||
-            (bool)$_SESSION[User::SESSION]["nivel"] !== $nivelAdmin
-        ){
+    public static function verifyLogin($nivel = true)
+	{
 
-            header("Location: /admin/login");
-            exit;
+		if (!User::checkLogin($nivel)) {
 
-        }
+			if ($nivel) {
+				header("Location: /admin/login");
+			} else {
+				header("Location: /login");
+			}
+			exit;
 
-    }
+		}
+
+	}
 
     public static function logout(){
 
@@ -75,23 +124,23 @@ class User extends Model {
 
     }
 
-    public function save(){
+	public function save()
+	{
 
-        $sql = new Sql();
+		$sql = new Sql();
 
-        $results = $sql->select("CALL sp_users_save(:name, :username, :password, :email, :phone, :nivel)", 
-        array(
-            ":name"=>$this->getname(),
-            ":username"=>$this->getusername(),
-            ":password"=>$this->getpassword(),
-            ":email"=>$this->getemail(),
-            ":phone"=>$this->getphone(),
-            ":nivel"=>$this->getnivel()
-        ));
+		$results = $sql->select("CALL sp_users_save(:name, :username, :password, :email, :phone, :nivel)", array(
+			":name"=>utf8_decode($this->getname()),
+			":username"=>$this->getusername(),
+			":password"=>$this->getpassword(),
+			":email"=>$this->getemail(),
+			":phone"=>$this->getphone(),
+			":admin"=>$this->getadmin()
+		));
 
-        $this->setData($results[0]);
+		$this->setData($results[0]);
 
-    } 
+	}
 
     public function get($iduser){
 
@@ -145,60 +194,123 @@ class User extends Model {
 
     }
     
-    public static function getForgot($email){
+    public static function getForgot($email, $nivel = true)
+	{
 
-        $sql = new Sql();
+		$sql = new Sql();
 
-        $results = $sql->select("SELECT * 
-        FROM tb_persons a
-        INNER JOIN tb_users b USING(idperson)
-        WHERE a.email = :email;        
-        ", array(
-            ":email"=>$email
-        ));
+		$results = $sql->select("
+			SELECT *
+			FROM tb_persons a
+			INNER JOIN tb_users b USING(idperson)
+			WHERE a.email = :email;
+		", array(
+			":email"=>$email
+		));
 
-        if(count($results) === 0){
+		if (count($results) === 0)
+		{
 
-            throw new \Exception("Não possível recuperar a senha.");
+			throw new \Exception("Não foi possível recuperar a senha.");
 
-        }else{
+		}
+		else
+		{
 
-            $data = $results[0];
+			$data = $results[0];
 
-            $results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :ip)", array(
-                ":iduser"=>$data["iduser"],
-                ":ip"=>$_SERVER["REMOTE_ADDR"]
-            ));
+			$results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :ip)", array(
+				":iduser"=>$data['iduser'],
+				":ip"=>$_SERVER['REMOTE_ADDR']
+			));
 
-            if(count($results2) === 0){
+			if (count($results2) === 0)
+			{
 
-               $dataRecovery = $results2[0];
+				throw new \Exception("Não foi possível recuperar a senha.");
 
-               $code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET,$dataRecovery["idrecovery"],
-               MCRYPT_MODE_ECB));
+			}
+			else
+			{
 
-               $link = "http://www.eldoradocamping.com.br/admin/forgot/reset?code=$code";
+				$dataRecovery = $results2[0];
 
-               $mailer = new Mailer($data["email"], $data["name"], "Redefinir Senha da Atlantic Tecnologia", "forgot", array(
-					"name"=>$data["name"],
+				$code = openssl_encrypt($dataRecovery['idrecovery'], 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+
+				$code = base64_encode($code);
+
+				if ($nivel === true) {
+
+					$link = "http://www.eldoradocamping.com.br/admin/forgot/reset?code=$code";
+
+				} else {
+
+					$link = "http://www.eldoradocamping.com.br/forgot/reset?code=$code";
+					
+				}				
+
+				$mailer = new Mailer($data['email'], $data['name'], "Redefinir senha da Eldorado Camping", "forgot", array(
+					"name"=>$data['name'],
 					"link"=>$link
-				));
+				));				
 
 				$mailer->send();
 
-				return $data;
+				return $link;
 
-            }
+			}
 
-        }
+		}
 
-    }
+	}
 
-    public static function validaForgotDecrypt($code){
+	public static function validForgotDecrypt($code)
+	{
 
-        $idRecovery = mcrypt_decrypt(MCRYPT_RJNDAEL_128, User::SECRET, base64_decode($code), MCRYPT_MODE_ECB);
+		$code = base64_decode($code);
 
-    }
+		$idrecovery = openssl_decrypt($code, 'AES-128-CBC', pack("a16", User::SECRET), 0, pack("a16", User::SECRET_IV));
+
+		$sql = new Sql();
+
+		$results = $sql->select("
+			SELECT *
+			FROM tb_userspasswordsrecoveries a
+			INNER JOIN tb_users b USING(iduser)
+			INNER JOIN tb_persons c USING(idperson)
+			WHERE
+				a.idrecovery = :idrecovery
+				AND
+				a.dtrecovery IS NULL
+				AND
+				DATE_ADD(a.dtregister, INTERVAL 1 HOUR) >= NOW();
+		", array(
+			":idrecovery"=>$idrecovery
+		));
+
+		if (count($results) === 0)
+		{
+			throw new \Exception("Não foi possível recuperar a senha.");
+		}
+		else
+		{
+
+			return $results[0];
+
+		}
+
+	}
+	
+	public static function setFogotUsed($idrecovery)
+	{
+
+		$sql = new Sql();
+
+		$sql->query("UPDATE tb_userspasswordsrecoveries SET dtrecovery = NOW() WHERE idrecovery = :idrecovery", array(
+			":idrecovery"=>$idrecovery
+		));
+
+	}
 
 }
 

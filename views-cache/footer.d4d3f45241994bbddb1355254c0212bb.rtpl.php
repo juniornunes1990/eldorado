@@ -1,0 +1,47 @@
+<?php if(!class_exists('Rain\Tpl')){exit;}?><footer class="footer">
+    <div class="container-fluid">
+        <nav class="pull-left">
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="https://www.themekita.com">
+                        ThemeKita
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Help
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        Licenses
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="copyright ml-auto">
+            2018, made with <i class="fa fa-heart heart text-danger"></i> by <a href="https://www.themekita.com">ThemeKita</a>
+        </div>				
+    </div>
+</footer>
+</div>
+</div>
+<!--   Core JS Files   -->
+<script src="/res/admin/assets/js/core/jquery.3.2.1.min.js"></script>
+<script src="/res/admin/assets/js/core/popper.min.js"></script>
+<script src="/res/admin/assets/js/core/bootstrap.min.js"></script>
+
+<!-- jQuery UI -->
+<script src="/res/admin/assets/js/plugin/jquery-ui-1.12.1.custom/jquery-ui.min.js"></script>
+<script src="/res/admin/assets/js/plugin/jquery-ui-touch-punch/jquery.ui.touch-punch.min.js"></script>
+
+<!-- jQuery Scrollbar -->
+<script src="/res/admin/assets/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js"></script>
+
+<!-- Datatables -->
+<script src="/res/admin/assets/js/plugin/datatables/datatables.min.js"></script>
+
+<!-- Atlantis JS -->
+<script src="/res/admin/assets/js/atlantis.min.js"></script>
+</body>
+</html>

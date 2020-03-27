@@ -8,7 +8,7 @@ class Mailer {
 	
 	const USERNAME = "atlantictecnologia@gmail.com";
 	const PASSWORD = "thmpv77d6f";
-	const NAME_FROM = "Atlantic tecnologia";
+	const NAME_FROM = "AtlanticTecnologia";
 
 	private $mail;
 
@@ -40,7 +40,7 @@ class Mailer {
 		// 0 = off (for production use)
 		// 1 = client messages
 		// 2 = client and server messages
-		$this->mail->SMTPDebug = 2;
+		$this->mail->SMTPDebug = 0;
 
 		//Ask for HTML-friendly debug output
 		$this->mail->Debugoutput = 'html';
