@@ -3,10 +3,12 @@ namespace Atlantic\Model;
 
 use \Atlantic\Model;
 use \Atlantic\DB\Sql;
+use \Atlantic\Mailer;
 
 class User extends Model {
 
     const SESSION = "User";
+    const SECRET = "Atlantic_TecPHP7";
 
     public static function login($username, $password)  {
 
@@ -47,7 +49,7 @@ class User extends Model {
             ||
             !$_SESSION[User::SESSION]
             ||
-            !(int)$_SESSION[User::SESSION]["id"] > 0
+            !(int)$_SESSION[User::SESSION]["iduser"] > 0
             ||
             (bool)$_SESSION[User::SESSION]["nivel"] !== $nivelAdmin
         ){
@@ -85,20 +87,19 @@ class User extends Model {
             ":email"=>$this->getemail(),
             ":phone"=>$this->getphone(),
             ":nivel"=>$this->getnivel()
-
         ));
 
         $this->setData($results[0]);
 
     } 
 
-    public function get($id){
+    public function get($iduser){
 
         $sql = new Sql();
 
-        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.id = :id", 
+        $results = $sql->select("SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser", 
         array(
-            ":id"=>$id
+            ":iduser"=>$iduser
         ));
 
         $this->setData($results[0]);
@@ -109,9 +110,9 @@ class User extends Model {
 
         $sql = new Sql();
 
-        $results = $sql->select("CALL sp_usersupdate_save(:id, :name, :username, :password, :email, :phone, :nivel)", 
+        $results = $sql->select("CALL sp_usersupdate_save(:iduser, :name, :username, :password, :email, :phone, :nivel)", 
         array(
-            ":id"=>$this->getid(),
+            ":iduser"=>$this->getiduser(),
             ":name"=>$this->getname(),
             ":username"=>$this->getusername(),
             ":password"=>$this->getpassword(),
@@ -129,9 +130,73 @@ class User extends Model {
         
         $sql = new Sql();
 
-        $sql->query("CALL sp_users_delete(:id)", array(
-            ":id"=>$this->getid()
+        $sql->query("CALL sp_users_delete(:iduser)", array(
+            ":iduser"=>$this->getiduser()
         ));
+
+    }
+
+    public static function getPasswordHash($password)
+	{
+
+		return password_hash($password, PASSWORD_DEFAULT, [
+			'cost'=>12
+		]);
+
+    }
+    
+    public static function getForgot($email){
+
+        $sql = new Sql();
+
+        $results = $sql->select("SELECT * 
+        FROM tb_persons a
+        INNER JOIN tb_users b USING(idperson)
+        WHERE a.email = :email;        
+        ", array(
+            ":email"=>$email
+        ));
+
+        if(count($results) === 0){
+
+            throw new \Exception("Não possível recuperar a senha.");
+
+        }else{
+
+            $data = $results[0];
+
+            $results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :ip)", array(
+                ":iduser"=>$data["iduser"],
+                ":ip"=>$_SERVER["REMOTE_ADDR"]
+            ));
+
+            if(count($results2) === 0){
+
+               $dataRecovery = $results2[0];
+
+               $code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET,$dataRecovery["idrecovery"],
+               MCRYPT_MODE_ECB));
+
+               $link = "http://www.eldoradocamping.com.br/admin/forgot/reset?code=$code";
+
+               $mailer = new Mailer($data["email"], $data["name"], "Redefinir Senha da Atlantic Tecnologia", "forgot", array(
+					"name"=>$data["name"],
+					"link"=>$link
+				));
+
+				$mailer->send();
+
+				return $data;
+
+            }
+
+        }
+
+    }
+
+    public static function validaForgotDecrypt($code){
+
+        $idRecovery = mcrypt_decrypt(MCRYPT_RJNDAEL_128, User::SECRET, base64_decode($code), MCRYPT_MODE_ECB);
 
     }
 

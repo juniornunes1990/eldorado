@@ -59,10 +59,10 @@
 											<td>{if="$value.nivel == 1"}Adminstrador{else}Usuário{/if}</td>
 											<td>
 												<div class="form-button-action">
-													<a href="/admin/users/{$value.id}" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Editar">
+													<a href="/admin/users/{$value.iduser}" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Editar">
 														<i class="fa fa-edit"></i>
 													</a>
-													<a href="/admin/users/{$value.id}/delete" data-toggle="tooltip" onclick="return confirm('Deseja excluir esse usuário?')" title="" class="btn btn-link btn-danger" data-original-title="Deletar">
+													<a href="/admin/users/{$value.iduser}/delete" data-toggle="tooltip" onclick="return confirm('Deseja excluir esse usuário?')" title="" class="btn btn-link btn-danger" data-original-title="Deletar">
 														<i class="fa fa-times"></i>
 													</a>
 												</div>
