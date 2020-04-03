@@ -35,21 +35,24 @@
 </head>
 <body>    
 <div class="login-form">
-    <div class="text-center">
-        <h3><i class="fa fa-envelope-o fa-4x"></i></h3>
+    <div class="text-center">       
         <div class="panel-body">
-           <!-- /.lockscreen-item -->
-            <div class="help-block text-center">
-              <div class="callout callout-success">
-                <h5 class="alert alert-success">E-mail enviado!</h5>
-
-                <p>Verifique as instruções no seu e-mail.</p>
-              </div>
-            </div>
-            <div class="lockscreen-footer text-center">
-              Copyright &copy; 2020
-            </div>
-          </div>
+           <!-- /.lockscreen-item -->           
+           <form id="login-form-wrap" class="login" method="post" action="/admin/forgot/reset">
+            <h3><i class="fa fa-lock fa-4x"></i></h3>
+            <input type="hidden" name="code" value="{$code}">
+            <h5>Olá <b>{$name}</b>, digite uma nova senha:</h5>
+            <p class="form-row form-row-first">
+                <label for="password">Nova senha <span class="required">*</span>
+                </label>
+                <input type="password" id="password" name="password" class="input-text" style="width:350px">
+            </p>
+            <div class="clear"></div>
+            <p class="form-row">
+                <input type="submit" value="Enviar" name="login" class="button">                
+            </p>
+            <div class="clear"></div>
+        </form>      
           <!-- /.center -->
         </div>
       </div>

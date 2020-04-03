@@ -312,6 +312,17 @@ class User extends Model {
 
 	}
 
+	public function setPassword($password){
+
+		$sql = new Sql();
+
+		$sql->query("UPDATE tb_users SET password = :password WHERE iduser = :iduser", array(
+			":password"=>$password,
+			":iduser"=>$this->getiduser()
+		));
+
+	}
+
 }
 
 ?>
