@@ -264,7 +264,7 @@
 											<div class="avatar-lg"><img src="/res/admin/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
 											<div class="u-text">
 												<h4>Administrador</h4>
-												<p class="text-muted">hello@example.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
+												<p class="text-muted">juniornunesdv@gmail.com</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">View Profile</a>
 											</div>
 										</div>
 									</li>
@@ -309,17 +309,17 @@
 								<ul class="nav">
 									<li>
 										<a href="#profile">
-											<span class="link-collapse">My Profile</span>
+											<span class="link-collapse">Meu Perfil</span>
 										</a>
 									</li>
 									<li>
 										<a href="#edit">
-											<span class="link-collapse">Edit Profile</span>
+											<span class="link-collapse">Editar Perfil</span>
 										</a>
 									</li>
 									<li>
 										<a href="#settings">
-											<span class="link-collapse">Settings</span>
+											<span class="link-collapse">Ferramentas</span>
 										</a>
 									</li>
 								</ul>
@@ -331,6 +331,12 @@
 							<a href="/admin">
 								<i class="fas fa-home"></i>
 								<p>Principal</p>								
+							</a>						
+						</li>
+						<li class="nav-item">
+							<a  href="/admin/categories">
+								<i class="fas fa-edit"></i>
+								<p>Categorias</p>								
 							</a>						
 						</li>
 						<li class="nav-item">
