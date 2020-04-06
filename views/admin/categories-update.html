@@ -41,7 +41,7 @@
                             </div>
                         </div>
                         <div class="card-action">
-                            <button type="submit" class="btn btn-success">Cadastrar</button>
+                            <button type="submit" class="btn btn-success">Salvar Alteração</button>
                             <button type="reset" class="btn btn-danger">Cancelar</button>
                         </div>
                       </form>
