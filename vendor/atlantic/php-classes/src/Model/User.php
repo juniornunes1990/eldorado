@@ -241,11 +241,11 @@ class User extends Model {
 
 				if ($nivel === true) {
 
-					$link = "http://www.eldoradocamping.com.br/admin/forgot/reset?code=$code";
+					$link = "http://www.eldorado.com.br/admin/forgot/reset?code=$code";
 
 				} else {
 
-					$link = "http://www.eldoradocamping.com.br/forgot/reset?code=$code";
+					$link = "http://www.eldorado.com.br/forgot/reset?code=$code";
 					
 				}				
 

@@ -3,7 +3,6 @@ namespace Atlantic\Model;
 
 use \Atlantic\Model;
 use \Atlantic\DB\Sql;
-use \Atlantic\Mailer;
 
 class Category extends Model {
 

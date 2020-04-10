@@ -77,7 +77,7 @@
 							<ul class="dropdown-menu messages-notif-box animated fadeIn" aria-labelledby="messageDropdown">
 								<li>
 									<div class="dropdown-title d-flex justify-content-between align-items-center">
-										Messages 									
+										Mensagens 									
 										<a href="#" class="small">Mark all as read</a>
 									</div>
 								</li>
@@ -89,54 +89,18 @@
 													<img src="/res/admin/assets/img/jm_denis.jpg" alt="Img Profile">
 												</div>
 												<div class="notif-content">
-													<span class="subject">Jimmy Denis</span>
+													<span class="subject">Administrador</span>
 													<span class="block">
-														How are you ?
+														E ai Tudo bem ?
 													</span>
-													<span class="time">5 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="/res/admin/assets/img/chadengle.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Chad</span>
-													<span class="block">
-														Ok, Thanks !
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="/res/admin/assets/img/mlane.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Jhon Doe</span>
-													<span class="block">
-														Ready for the meeting today...
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="/res/admin/assets/img/talha.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Talha</span>
-													<span class="block">
-														Hi, Apa Kabar ?
-													</span>
-													<span class="time">17 minutes ago</span> 
+													<span class="time">5 Minutos atras</span> 
 												</div>
 											</a>
 										</div>
 									</div>
 								</li>
 								<li>
-									<a class="see-all" href="javascript:void(0);">See all messages<i class="fa fa-angle-right"></i> </a>
+									<a class="see-all" href="javascript:void(0);">Abrir todas mensagens<i class="fa fa-angle-right"></i> </a>
 								</li>
 							</ul>
 						</li>
@@ -331,6 +295,12 @@
 							<a href="/admin">
 								<i class="fas fa-home"></i>
 								<p>Principal</p>								
+							</a>						
+						</li>
+						<li class="nav-item">
+							<a  href="/admin/products">
+								<i class="fas fa-list"></i>
+								<p>Produtos</p>								
 							</a>						
 						</li>
 						<li class="nav-item">
