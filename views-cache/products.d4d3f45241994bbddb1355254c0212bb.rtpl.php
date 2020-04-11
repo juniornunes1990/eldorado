@@ -2,10 +2,10 @@
 	<div class="content">
 		<div class="page-inner">
 			<div class="page-header">
-				<h4 class="page-title">Categorias</h4>
+				<h4 class="page-title">Produtos</h4>
 				<ul class="breadcrumbs">
 					<li class="nav-home">
-						<a href="#">
+						<a href="/admin">
 							<i class="flaticon-home"></i>
 						</a>
 					</li>
@@ -13,7 +13,7 @@
 						<i class="flaticon-right-arrow"></i>
 					</li>
 					<li class="nav-item">
-						<a href="#">Categorias</a>
+						Produtos
 					</li>
 				</ul>
 			</div>
@@ -22,10 +22,10 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="d-flex align-items-center">
-								<h4 class="card-title">Lista de Categorias</h4>
-								<a class="btn btn-primary btn-round ml-auto" href="/admin/categories/create">
+								<h4 class="card-title">Lista de Produtos</h4>
+								<a class="btn btn-primary btn-round ml-auto" href="/admin/products/create">
 									<i class="fa fa-plus"></i>&nbsp;
-									Cadastrar Categoria
+									Cadastrar Produto
 								</a>
 							</div>
 						</div>
